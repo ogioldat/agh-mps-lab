@@ -53,12 +53,12 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y < .github/workflows/packages.txt
 
-          - name: Save APT Cache (if changed)
-          if: steps.apt-cache.outputs.cache-hit != 'true'
-          uses: actions/cache@v4
-          with:
-            path: /var/cache/apt/archives
-            key: apt-packages-cache-${runner.os}-${hashFiles('.github/workflows/requirements.txt')}
+      - name: Save APT Cache (if changed)
+        if: steps.apt-cache.outputs.cache-hit != 'true'
+        uses: actions/cache@v4
+        with:
+          path: /var/cache/apt/archives
+          key: apt-packages-cache-${runner.os}-${hashFiles('.github/workflows/requirements.txt')}
 
       - name: Build PDF
         run: python -m nbconvert notebooks/lab01.ipynb --to pdf --output-dir pdf --execute
