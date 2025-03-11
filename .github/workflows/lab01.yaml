@@ -19,7 +19,7 @@ jobs:
       #   run: pip install -r requirements.txt
 
       - name: Install python deps
-        run: pip install nbconvert notebook ipykernel
+        run: pip install nbconvert notebook ipykernel pint scipy matplotlib
 
       - name: Install OS packages
         run: sudo apt-get install pandoc inkscape texlive texlive-xetex
