@@ -1,4 +1,4 @@
-name: Lab 1
+name: Build and publish lab report
 
 on: [push]
 
@@ -50,7 +50,6 @@ jobs:
 
       - name: Install APT packages
         run: |
-          sudo apt-get update
           sudo apt-get install -y < .github/workflows/packages.txt
 
       - name: Save APT Cache (if changed)
