@@ -15,7 +15,7 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Cache dependencies
+      - name: Restore notebook dependencies cache
         uses: actions/cache@v4
         with:
           path: |
@@ -27,7 +27,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Cache workflow dependencies
+      - name: Restore workflow dependencies cache
         uses: actions/cache@v4
         with:
           path: |
@@ -39,24 +39,29 @@ jobs:
       - name: Install workflow dependencies
         run: pip install -r .github/workflows/requirements.txt
 
+      # - name: Restore APT Cache
+      #   uses: actions/cache@v4
+      #   id: apt-cache
+      #   with:
+      #     path: /var/cache/apt/archives
+      #     key: apt-packages-cache-${runner.os}-${hashFiles('.github/workflows/requirements.txt')}
+      #     restore-keys: |
+      #       apt-packages-cache-${runner.os}-
+
+      - name: Install APT packages
+        run: |
+          xargs sudo apt-get install -y < .github/workflows/packages.txt
+
       - name: Print cache
         run: |
           ls -l ~/.cache/pip
           pip cache dir
-
-      - name: Restore APT Cache
-        uses: actions/cache@v4
-        id: apt-cache
-        with:
-          path: /var/cache/apt/archives
-          key: apt-packages-cache-${runner.os}-${hashFiles('.github/workflows/requirements.txt')}
-          restore-keys: |
-            apt-packages-cache-${runner.os}-
-
-      # - name: Install APT packages
-      #   run: |
-      #     cat .github/workflows/packages.txt
-      #     xargs sudo apt-get install -y < .github/workflows/packages.txt
+          cat /var/cache/apt
+          cat /var/cache/apt/archives
+          cat /var/cache/apt/pkgcache.bin
+          cat /var/cache/apt/srcpkgcache.bin
+          ls /var/cache/apt -l
+          ls /var/cache/apt/archive -l
 
       - name: Save APT Cache (if changed)
         if: steps.apt-cache.outputs.cache-hit != 'true'
