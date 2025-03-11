@@ -15,14 +15,22 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install req
-        run: pip install -r requirements.txt
+      # - name: Install req
+      #   run: pip install -r requirements.txt
 
-      - name: Install deps
+      - name: Install python deps
         run: pip install nbconvert notebook
+
+      - name: Install OS packages
+        run: sudo apt-get install pandoc inkscape
 
       # - name: Configure jupyter
       #   run:
 
       - name: Build PDF
-        run: python -m nbconvert notebooks/lab_1.ipynb --to pdf
+        run: python -m nbconvert notebooks/lab_1.ipynb --to pdf --output-dir pdf
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Publish PDF
+          path: pdf/
