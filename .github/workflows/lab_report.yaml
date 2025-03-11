@@ -52,22 +52,6 @@ jobs:
         run: |
           xargs sudo apt-get install -y < .github/workflows/packages.txt
 
-      - name: Print cache
-        run: |
-          ls -l ~/.cache/pip
-          pip cache dir
-          ls -l /var/cache/apt
-          ls -l /var/cache/apt/archives
-          ls -l /var/cache/apt/pkgcache.bin
-          ls -l /var/cache/apt/srcpkgcache.bin
-
-      - name: Save APT Cache (if changed)
-        if: steps.apt-cache.outputs.cache-hit != 'true'
-        uses: actions/cache@v4
-        with:
-          path: /var/cache/apt/archives
-          key: apt-packages-cache-${{ runner.os }}-${{ hashFiles('.github/workflows/requirements.txt') }}
-
       - name: Build PDF
         run: python -m nbconvert notebooks/lab01.ipynb --to pdf --output-dir pdf --execute
 
