@@ -39,12 +39,12 @@ jobs:
       - name: Install workflow dependencies
         run: pip install -r .github/workflows/requirements.txt
 
-      - name: Restore APT Cache
+      - name: Restore APT cache
         uses: actions/cache@v4
         id: apt-cache
         with:
           path: /var/cache/apt
-          key: apt-packages-cache-${{ runner.os }}-${{ hashFiles('.github/workflows/requirements.txt') }}
+          key: apt-packages-cache-${{ runner.os }}-${{ hashFiles('.github/workflows/packages.txt') }}
           restore-keys: |
             apt-packages-cache-${{ runner.os }}-
 
