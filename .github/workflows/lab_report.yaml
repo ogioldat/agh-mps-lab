@@ -65,3 +65,35 @@ jobs:
           path: pdf/
 
   publish-gh-pages:
+    name: Publish
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        name: Get the latest changes
+
+      - uses: actions/setup-python@v5
+        name: Setup Python
+        with:
+          python-version: "3.11"
+
+      - name: Restore jupyter cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/jupyter
+            .ipynb_checkpoints
+          key: jupyter-${{ hashFiles('notebooks/**/*.ipynb') }}
+          restore-keys: |
+            jupyter-
+
+      - name: Build the book
+        run: jupyter-book build pages
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "pages/_build/html"
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
