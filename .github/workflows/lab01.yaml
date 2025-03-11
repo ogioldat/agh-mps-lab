@@ -3,7 +3,8 @@ name: Lab 1
 on: [push]
 
 jobs:
-  run:
+  build-notebook:
+    name: Build Jupyter notebook
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -16,3 +17,6 @@ jobs:
 
       - name: Install deps
         run: pip install nbconvert
+
+      - name: Build PDF
+        run: ls -la
