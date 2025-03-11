@@ -60,7 +60,6 @@ jobs:
 
       - name: Build PDF
         run: |
-          fmtutil-sys --all
           python -m nbconvert notebooks/lab01.ipynb --to pdf --output-dir pdf --execute
 
       - uses: actions/upload-artifact@v4
