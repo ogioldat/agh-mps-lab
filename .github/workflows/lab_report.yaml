@@ -51,7 +51,7 @@ jobs:
       - name: Install APT packages
         run: |
           cat .github/workflows/packages.txt 
-          xarg sudo apt-get install -y < .github/workflows/packages.txt
+          xargs sudo apt-get install -y < .github/workflows/packages.txt
 
       # - name: Save APT Cache (if changed)
       #   if: steps.apt-cache.outputs.cache-hit != 'true'
