@@ -22,7 +22,7 @@ jobs:
         run: pip install nbconvert notebook
 
       - name: Install OS packages
-        run: sudo apt-get install pandoc inkscape texlive texlive-latex-extra
+        run: sudo apt-get install pandoc inkscape texlive texlive-xete
 
       # - name: Configure jupyter
       #   run:
