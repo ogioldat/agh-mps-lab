@@ -16,7 +16,10 @@ jobs:
           python-version: "3.11"
 
       - name: Install deps
-        run: pip install nbconvert
+        run: pip install nbconvert notebook
+
+      # - name: Configure jupyter
+      #   run:
 
       - name: Build PDF
         run: python -m nbconvert notebooks/lab_1.ipynb --to pdf --execute
