@@ -32,9 +32,9 @@ jobs:
         with:
           path: |
             ~/.cache/pip
-          key: pip-${{ runner.os }}-${{ hashFiles('.github/workflows/requirements.txt') }}
+          key: pip-workflow-${{ runner.os }}-${{ hashFiles('.github/workflows/requirements.txt') }}
           restore-keys: |
-            pip-${{ runner.os }}-
+            pip-workflow-${{ runner.os }}-
 
       - name: Install workflow dependencies
         run: pip install -r .github/workflows/requirements.txt
