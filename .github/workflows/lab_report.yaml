@@ -44,9 +44,9 @@ jobs:
         id: apt-cache
         with:
           path: /var/cache/apt
-          key: apt-packages-cache-${runner.os}-${hashFiles('.github/workflows/requirements.txt')}
+          key: apt-packages-cache-${{ runner.os }}-${{ hashFiles('.github/workflows/requirements.txt') }}
           restore-keys: |
-            apt-packages-cache-${runner.os}-
+            apt-packages-cache-${{ runner.os }}-
 
       - name: Install APT packages
         run: |
@@ -74,4 +74,4 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: Publish PDF
-          path: artifacts/pdf/
+          path: pdf/
