@@ -3,8 +3,8 @@ name: Build and publish lab report
 on: [push]
 
 jobs:
-  build-notebook:
-    name: Build Jupyter notebook
+  build-artifacts:
+    name: Build artifacts from Jupyter notebook
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -40,7 +40,9 @@ jobs:
         run: pip install -r .github/workflows/requirements.txt
 
       - name: Print cache
-        run: ls -l ~/.cache/pip
+        run: |
+          ls -l ~/.cache/pip
+          pip cache dir
 
       - name: Restore APT Cache
         uses: actions/cache@v4
@@ -51,10 +53,10 @@ jobs:
           restore-keys: |
             apt-packages-cache-${runner.os}-
 
-      - name: Install APT packages
-        run: |
-          cat .github/workflows/packages.txt 
-          xargs sudo apt-get install -y < .github/workflows/packages.txt
+      # - name: Install APT packages
+      #   run: |
+      #     cat .github/workflows/packages.txt
+      #     xargs sudo apt-get install -y < .github/workflows/packages.txt
 
       - name: Save APT Cache (if changed)
         if: steps.apt-cache.outputs.cache-hit != 'true'
