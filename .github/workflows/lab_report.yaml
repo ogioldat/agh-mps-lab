@@ -39,25 +39,25 @@ jobs:
       - name: Install workflow dependencies
         run: pip install -r .github/workflows/requirements.txt
 
-      - name: Restore APT Cache
-        uses: actions/cache@v4
-        id: apt-cache
-        with:
-          path: /var/cache/apt/archives
-          key: apt-packages-cache-${runner.os}-${hashFiles('.github/workflows/requirements.txt')}
-          restore-keys: |
-            apt-packages-cache-${runner.os}-
+      # - name: Restore APT Cache
+      #   uses: actions/cache@v4
+      #   id: apt-cache
+      #   with:
+      #     path: /var/cache/apt/archives
+      #     key: apt-packages-cache-${runner.os}-${hashFiles('.github/workflows/requirements.txt')}
+      #     restore-keys: |
+      #       apt-packages-cache-${runner.os}-
 
       - name: Install APT packages
         run: |
           sudo apt-get install -y < .github/workflows/packages.txt
 
-      - name: Save APT Cache (if changed)
-        if: steps.apt-cache.outputs.cache-hit != 'true'
-        uses: actions/cache@v4
-        with:
-          path: /var/cache/apt/archives
-          key: apt-packages-cache-${runner.os}-${hashFiles('.github/workflows/requirements.txt')}
+      # - name: Save APT Cache (if changed)
+      #   if: steps.apt-cache.outputs.cache-hit != 'true'
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: /var/cache/apt/archives
+      #     key: apt-packages-cache-${runner.os}-${hashFiles('.github/workflows/requirements.txt')}
 
       - name: Build PDF
         run: python -m nbconvert notebooks/lab01.ipynb --to pdf --output-dir pdf --execute
