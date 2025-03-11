@@ -3,69 +3,8 @@ name: Build and publish lab report
 on: [push]
 
 jobs:
-  # build-artifacts:
-  #   name: Build artifacts from Jupyter notebook
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #       name: Get the latest changes
-
-  #     - uses: actions/setup-python@v5
-  #       name: Setup Python
-  #       with:
-  #         python-version: "3.11"
-
-  #     - name: Restore notebook dependencies cache
-  #       uses: actions/cache@v4
-  #       with:
-  #         path: |
-  #           ~/.cache/pip
-  #         key: pip-${{ runner.os }}-${{ hashFiles('requirements.txt') }}
-  #         restore-keys: |
-  #           pip-${{ runner.os }}-
-
-  #     - name: Install dependencies
-  #       run: pip install -r requirements.txt
-
-  #     - name: Restore workflow dependencies cache
-  #       uses: actions/cache@v4
-  #       with:
-  #         path: |
-  #           ~/.cache/pip
-  #         key: pip-workflow-${{ runner.os }}-${{ hashFiles('.github/workflows/requirements.txt') }}
-  #         restore-keys: |
-  #           pip-workflow-${{ runner.os }}-
-
-  #     - name: Install workflow dependencies
-  #       run: pip install -r .github/workflows/requirements.txt
-
-  #     - uses: awalsh128/cache-apt-pkgs-action@latest
-  #       name: Cache and install APT packages
-  #       with:
-  #         packages: pandoc inkscape texlive-xetex
-  #         version: 1.0
-
-  #     - name: Restore jupyter cache
-  #       uses: actions/cache@v3
-  #       with:
-  #         path: |
-  #           ~/.cache/jupyter
-  #           .ipynb_checkpoints
-  #         key: jupyter-${{ hashFiles('notebooks/**/*.ipynb') }}
-  #         restore-keys: |
-  #           jupyter-
-
-  #     - name: Build PDF
-  #       run: python -m nbconvert notebooks/lab01.ipynb --to pdf --output-dir pdf --execute
-
-  #     - uses: actions/upload-artifact@v4
-  #       name: Upload PDF
-  #       with:
-  #         name: Publish PDF
-  #         path: pdf/
-
-  publish-gh-pages:
-    name: Publish
+  build-artifacts:
+    name: Build artifacts from Jupyter notebook
     runs-on: ubuntu-latest
     permissions:
       pages: write
@@ -79,8 +18,35 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Restore notebook dependencies cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pip
+          key: pip-${{ runner.os }}-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            pip-${{ runner.os }}-
+
       - name: Install dependencies
-        run: pip install jupyter-book
+        run: pip install -r requirements.txt
+
+      - name: Restore workflow dependencies cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pip
+          key: pip-workflow-${{ runner.os }}-${{ hashFiles('.github/workflows/requirements.txt') }}
+          restore-keys: |
+            pip-workflow-${{ runner.os }}-
+
+      - name: Install workflow dependencies
+        run: pip install -r .github/workflows/requirements.txt
+
+      - uses: awalsh128/cache-apt-pkgs-action@latest
+        name: Cache and install APT packages
+        with:
+          packages: pandoc inkscape texlive-xetex
+          version: 1.0
 
       - name: Restore jupyter cache
         uses: actions/cache@v3
@@ -92,14 +58,22 @@ jobs:
           restore-keys: |
             jupyter-
 
+      - name: Build PDF
+        run: python -m nbconvert notebooks/lab01.ipynb --to pdf --output-dir pdf --execute
+
+      - uses: actions/upload-artifact@v4
+        name: Upload PDF
+        with:
+          name: Publish PDF
+          path: pdf/
+
       - name: Build the book
-        run: jupyter-book build pages
+        run: jupyter-book build .
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: "pages/_build/html"
+          path: "_build/html"
 
       - name: Deploy to GitHub Pages
-        id: deployment
         uses: actions/deploy-pages@v4
