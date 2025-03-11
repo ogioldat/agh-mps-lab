@@ -76,6 +76,9 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Install dependencies
+        run: pip install jupyter-book
+
       - name: Restore jupyter cache
         uses: actions/cache@v3
         with:
