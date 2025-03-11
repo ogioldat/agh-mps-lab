@@ -19,4 +19,4 @@ jobs:
         run: pip install nbconvert
 
       - name: Build PDF
-        run: ls -la
+        run: python -m nbconvert notebooks/lab_1.ipynb --to pdf --execute
