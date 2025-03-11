@@ -15,17 +15,50 @@ jobs:
         with:
           python-version: "3.11"
 
-      # - name: Install req
-      #   run: pip install -r requirements.txt
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pip
+          key: pip-${{ runner.os }}-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            pip-${{ runner.os }}-
 
-      - name: Install python deps
-        run: pip install nbconvert notebook ipykernel pint scipy matplotlib
+      - name: Install dependencies
+        run: pip install -r requirements.txt
 
-      - name: Install OS packages
-        run: sudo apt-get install pandoc inkscape texlive texlive-xetex
+      - name: Cache workflow dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pip
+          key: pip-${{ runner.os }}-${{ hashFiles('.github/workflows/requirements.txt') }}
+          restore-keys: |
+            pip-${{ runner.os }}-
 
-      # - name: Configure jupyter
-      #   run:
+      - name: Install workflow dependencies
+        run: pip install -r .github/workflows/requirements.txt
+
+      - name: Restore APT Cache
+        uses: actions/cache@v4
+        id: apt-cache
+        with:
+          path: /var/cache/apt/archives
+          key: apt-packages-cache-${runner.os}-${hashFiles('.github/workflows/requirements.txt')}
+          restore-keys: |
+            apt-packages-cache-${runner.os}-
+
+      - name: Install APT packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y < .github/workflows/packages.txt
+
+          - name: Save APT Cache (if changed)
+          if: steps.apt-cache.outputs.cache-hit != 'true'
+          uses: actions/cache@v4
+          with:
+            path: /var/cache/apt/archives
+            key: apt-packages-cache-${runner.os}-${hashFiles('.github/workflows/requirements.txt')}
 
       - name: Build PDF
         run: python -m nbconvert notebooks/lab01.ipynb --to pdf --output-dir pdf --execute
@@ -34,3 +67,7 @@ jobs:
         with:
           name: Publish PDF
           path: pdf/
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
