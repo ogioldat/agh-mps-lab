@@ -56,12 +56,10 @@ jobs:
         run: |
           ls -l ~/.cache/pip
           pip cache dir
-          cat /var/cache/apt
-          cat /var/cache/apt/archives
-          cat /var/cache/apt/pkgcache.bin
-          cat /var/cache/apt/srcpkgcache.bin
-          ls /var/cache/apt -l
-          ls /var/cache/apt/archive -l
+          ls -l /var/cache/apt
+          ls -l /var/cache/apt/archives
+          ls -l /var/cache/apt/pkgcache.bin
+          ls -l /var/cache/apt/srcpkgcache.bin
 
       - name: Save APT Cache (if changed)
         if: steps.apt-cache.outputs.cache-hit != 'true'
