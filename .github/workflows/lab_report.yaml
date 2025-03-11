@@ -45,10 +45,23 @@ jobs:
           packages: pandoc inkscape texlive-xetex
           version: 1.0
 
+      - name: Restore jupyter cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/jupyter
+            .ipynb_checkpoints
+          key: jupyter-${{ hashFiles('notebooks/**/*.ipynb') }}
+          restore-keys: |
+            jupyter-
+
       - name: Build PDF
         run: python -m nbconvert notebooks/lab01.ipynb --to pdf --output-dir pdf --execute
 
       - uses: actions/upload-artifact@v4
+        name: Upload PDF
         with:
           name: Publish PDF
           path: pdf/
+
+  publish-gh-pages:
