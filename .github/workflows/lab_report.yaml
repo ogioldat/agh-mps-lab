@@ -3,8 +3,8 @@ name: Build and publish lab report
 on: [push]
 
 jobs:
-  build-artifacts:
-    name: Build artifacts from Jupyter notebook
+  build-and-publish:
+    name: Build notebook PDFs and publish
     runs-on: ubuntu-latest
     permissions:
       pages: write
@@ -45,7 +45,7 @@ jobs:
       - uses: awalsh128/cache-apt-pkgs-action@latest
         name: Cache and install APT packages
         with:
-          packages: pandoc inkscape texlive-xetex
+          packages: pandoc inkscape texlive-xetex texlive
           version: 1.0
 
       - name: Restore jupyter cache
