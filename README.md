@@ -1,7 +1,4 @@
-# agh-mps-lab
+# Modeling Physical Systems Labs
 
-Modeling Physical Systems lab
-
-assignments:
-
-- https://github.com/slayoo/AGH-MPS-2025
+- [Lab Reports](https://ogioldat.github.io/agh-mps-lab/home.html)
+- [Tasks](https://github.com/slayoo/AGH-MPS-2025)
