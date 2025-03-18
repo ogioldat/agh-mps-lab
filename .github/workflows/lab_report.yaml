@@ -59,10 +59,6 @@ jobs:
         run: |
           python -m nbconvert notebooks/lab02.ipynb --to pdf --output-dir pdf --execute
 
-      - name: Build PDF
-        run: |
-          python -m nbconvert notebooks/lab02.ipynb --to latex --output-dir pdf --execute && pdflatex pdf/lab02.tex
-
       - uses: actions/upload-artifact@v4
         name: Upload PDF
         with:
