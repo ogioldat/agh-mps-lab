@@ -2,3 +2,4 @@ nbconvert==7.16.4
 notebook==7.3.2
 ipykernel==6.29.5
 jupyter-book==1.0.4.post1
+ipympl==0.9.7
