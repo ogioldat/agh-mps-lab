@@ -60,7 +60,7 @@ jobs:
 
       - name: Build PDF
         run: |
-          python -m nbconvert notebooks/lab01.ipynb --to pdf --output-dir pdf --execute
+          python -m nbconvert notebooks/lab02.ipynb --to pdf --output-dir pdf --execute
 
       - uses: actions/upload-artifact@v4
         name: Upload PDF
