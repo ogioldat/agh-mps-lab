@@ -45,7 +45,7 @@ jobs:
       - uses: awalsh128/cache-apt-pkgs-action@latest
         name: Cache and install APT packages
         with:
-          packages: pandoc inkscape texlive-xetex texlive
+          packages: pandoc inkscape texlive-xetex texlive-all
           version: 1.0
 
       - name: Restore jupyter cache
