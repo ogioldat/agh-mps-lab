@@ -43,7 +43,7 @@ jobs:
         run: pip install -r .github/workflows/requirements.txt
 
       - name: Install APT pkg
-        run: sudo apt-get install pandoc inkscape texlive-xetex
+        run: sudo apt-get install pandoc inkscape texlive-xetex texlive-latex-extra
 
       - name: Restore jupyter cache
         uses: actions/cache@v3
