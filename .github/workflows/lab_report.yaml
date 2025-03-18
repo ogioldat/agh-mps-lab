@@ -43,7 +43,7 @@ jobs:
         run: pip install -r .github/workflows/requirements.txt
 
       - name: Install APT pkg
-        run: sudo apt-get install pandoc inkscape texlive-xetex texlive-latex-extra
+        run: sudo apt-get install pandoc inkscape texlive-xetex texlive-latex-extra texlive-fonts-recommended
 
       - name: Restore jupyter cache
         uses: actions/cache@v3
@@ -58,6 +58,10 @@ jobs:
       - name: Build PDF
         run: |
           python -m nbconvert notebooks/lab02.ipynb --to pdf --output-dir pdf --execute
+
+      - name: Build PDF
+        run: |
+          python -m nbconvert notebooks/lab02.ipynb --to latex --output-dir pdf --execute && pdflatex lab02.tex
 
       - uses: actions/upload-artifact@v4
         name: Upload PDF
