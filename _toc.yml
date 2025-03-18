@@ -5,3 +5,4 @@ format: jb-book
 root: home
 chapters:
 - file: notebooks/lab01
+- file: notebooks/lab02
