@@ -170,3 +170,5 @@ cython_debug/
 .pypirc
 
 
+notebooks/**/*
+!notebooks/**/*.ipynb
