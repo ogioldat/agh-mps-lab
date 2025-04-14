@@ -172,3 +172,4 @@ cython_debug/
 
 notebooks/**/*
 !notebooks/**/*.ipynb
+!notebooks/lab-materials/*.ipynb
