@@ -3,3 +3,5 @@ notebook==7.3.2
 ipykernel==6.29.5
 jupyter-book==1.0.4.post1
 ipympl==0.9.7
+nbqa==1.9.1
+black==25.1.0

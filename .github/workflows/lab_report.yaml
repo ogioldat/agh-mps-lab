@@ -56,8 +56,11 @@ jobs:
             jupyter-
 
       - name: Build PDF
+        run: nbqa black notebooks/lab06.ipynb
+
+      - name: Build PDF
         run: |
-          python -m nbconvert notebooks/lab05.ipynb --to pdf --output-dir pdf --execute
+          python -m nbconvert notebooks/lab06.ipynb --to pdf --output-dir pdf --execute
 
       - uses: actions/upload-artifact@v4
         name: Upload PDF
